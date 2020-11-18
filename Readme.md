@@ -1,7 +1,7 @@
 # Проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Оксана Минаева](https://up.htmlacademy.ru/ecmascript/13/user/652187).
-* Наставник: `Неизвестно`.
+* Наставник: `Борис Ванюшин`.
 
 ---
 
