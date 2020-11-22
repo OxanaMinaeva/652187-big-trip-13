@@ -28,6 +28,7 @@ render(siteEventElement, createTripSortTemplate(), `afterbegin`);
 render(siteEventElement, createEditPointTemplate(), `beforeend`);
 render(siteEventElement, createNewPointTemplate(), `beforeend`);
 
+
 for (let i = 0; i < TASK_COUNT; i++) {
   render(siteEventElement, createTripEventTemplate(), `beforeend`);
 }
