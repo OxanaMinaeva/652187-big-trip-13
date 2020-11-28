@@ -9,7 +9,5 @@ export const getRandomInteger = (a = 0, b = 1) => {
 
 export const generateDate = () => {
   const MAX_DAYS = 30;
-  const daysGap = getRandomInteger(0, MAX_DAYS);
-
-  return dayjs().add(daysGap, `day`);
+  return dayjs().add(getRandomInteger(0, MAX_DAYS), `day`);
 };

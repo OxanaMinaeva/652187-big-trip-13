@@ -4,21 +4,7 @@ import {generateDate} from "../utils.js";
 export const createEditPointTemplate = (event) => {
   const {type, date, destination, typeIcon, price, schedule: {startTime, endTime, duration}, offers: {title, value}, isFavorite} = event;
 
-  const favoriteClassName = isFavorite
-    ? `event__favorite-btn--active`
-    : ``;
-
-  const offerPrice = title
-    ? {currency: `&plus;&euro;&nbsp;`,
-      value}
-    : {currency: ``,
-      value: ``};
-
   const time = generateDate();
-  const eventTime = {
-    start: time.format(`DD/MM/YY HH:mm`),
-    end: dayjs(time).add(1, `day`).format(`DD/MM/YY HH:mm`)
-  };
 
   return `<ul class="trip-events__list">
             <li class="trip-events__item">
@@ -43,11 +29,11 @@ export const createEditPointTemplate = (event) => {
                 <ul class="event__selected-offers">
                   <li class="event__offer">
                     <span class="event__offer-title">${title}</span>
-                    ${offerPrice.currency}
-                    <span class="event__offer-price">${offerPrice.value}</span>
+                    ${title ? `&plus;&euro;&nbsp;` : ``}
+                    <span class="event__offer-price">${title ? value : ``}</span>
                   </li>
                 </ul>
-                <button class="event__favorite-btn ${favoriteClassName}" type="button">
+                <button class="event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
                   <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
                     <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
@@ -140,10 +126,10 @@ export const createEditPointTemplate = (event) => {
 
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${eventTime.start}">
+                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${time.format(`DD/MM/YY HH:mm`)}">
                     &mdash;
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${eventTime.end}">
+                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dayjs(time).add(1, `day`).format(`DD/MM/YY HH:mm`)}">
                   </div>
 
                   <div class="event__field-group  event__field-group--price">
