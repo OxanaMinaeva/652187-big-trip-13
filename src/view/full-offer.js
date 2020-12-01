@@ -1,4 +1,6 @@
-export const createFullOfferTemplate = (event) => {
+import {createElement} from "../utils.js";
+
+const createFullOfferTemplate = (event) => {
   const {description, offers: {title, value}} = event;
 
   return `<section class="event__details">
@@ -22,3 +24,27 @@ export const createFullOfferTemplate = (event) => {
             </section>
           </section>`;
 };
+
+
+export default class FullOffer {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFullOfferTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

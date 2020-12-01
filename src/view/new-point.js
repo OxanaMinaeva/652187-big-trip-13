@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import {generateDate} from "../utils.js";
+import {generateDate, createElement} from "../utils.js";
 
-export const createNewPointTemplate = (event) => {
+const createNewPointTemplate = (event) => {
   const {type, destination, typeIcon} = event;
 
   const time = generateDate();
@@ -176,3 +176,26 @@ export const createNewPointTemplate = (event) => {
             </li>
           </ul>`;
 };
+
+export default class NewPoint {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createNewPointTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
