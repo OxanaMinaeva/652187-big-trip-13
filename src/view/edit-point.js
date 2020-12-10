@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import {generateDate, createElement} from "../utils.js";
+import {generateDate} from "../utils/common.js";
+import AbstractView from "./abstract.js";
 
 const createEditPointTemplate = (event) => {
   const {type, destination, typeIcon, price} = event;
@@ -114,25 +115,37 @@ const createEditPointTemplate = (event) => {
            </ul>`;
 };
 
-export default class EditPoint {
-  constructor(event) {
-    this._event = event;
-    this._element = null;
-  }
 
+export default class EditPoint extends AbstractView {
+  constructor(event) {
+    super();
+    this._event = event;
+
+    this._rollupClickHandler = this._rollupClickHandler.bind(this);
+    this._submitClickHandler = this._submitClickHandler.bind(this);
+  }
   getTemplate() {
     return createEditPointTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _rollupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollupClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setRollupClickHandler(callback) {
+    this._callback.rollupClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupClickHandler);
+  }
+
+  // Save
+  _submitClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.submitClick();
+  }
+
+  setSubmitHandler(callback) {
+    this._callback.submitClick = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._submitClickHandler);
   }
 }

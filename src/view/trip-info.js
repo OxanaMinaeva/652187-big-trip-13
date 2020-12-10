@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
 import dayjs from "dayjs";
 
 const createTripInfoTemplate = (destinations, dates) => {
@@ -11,26 +11,13 @@ const createTripInfoTemplate = (destinations, dates) => {
               </div>`;
 };
 
-export default class TripInfo {
+export default class EditPoint extends AbstractView {
   constructor(destinations, dates) {
+    super();
     this._destinations = destinations;
     this._dates = dates;
-    this._element = null;
   }
-
   getTemplate() {
     return createTripInfoTemplate(this._destinations, this._dates);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

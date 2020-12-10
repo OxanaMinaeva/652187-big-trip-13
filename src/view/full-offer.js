@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
 
 const createFullOfferTemplate = (event) => {
   const {description, offers: {title, value}} = event;
@@ -26,25 +26,12 @@ const createFullOfferTemplate = (event) => {
 };
 
 
-export default class FullOffer {
+export default class FullOffer extends AbstractView {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
   }
-
   getTemplate() {
     return createFullOfferTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

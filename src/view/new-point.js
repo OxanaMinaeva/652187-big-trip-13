@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import {generateDate, createElement} from "../utils.js";
+import {generateDate} from "../utils/common.js";
+import AbstractView from "./abstract.js";
 
 const createNewPointTemplate = (event) => {
   const {type, destination, typeIcon} = event;
@@ -177,25 +178,13 @@ const createNewPointTemplate = (event) => {
           </ul>`;
 };
 
-export default class NewPoint {
-  constructor(event) {
-    this._event = event;
-    this._element = null;
-  }
 
+export default class NewPoint extends AbstractView {
+  constructor(event) {
+    super();
+    this._event = event;
+  }
   getTemplate() {
     return createNewPointTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
