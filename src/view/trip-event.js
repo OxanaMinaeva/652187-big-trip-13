@@ -59,7 +59,7 @@ export default class TripEvent extends AbstractView {
 
   _rollupClickHandler(evt) {
     evt.preventDefault();
-    this._callback.rollupClick();
+    this._callback.rollupClick(evt);
   }
 
   setRollupClickHandler(callback) {

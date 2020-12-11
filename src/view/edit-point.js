@@ -130,7 +130,7 @@ export default class EditPoint extends AbstractView {
 
   _rollupClickHandler(evt) {
     evt.preventDefault();
-    this._callback.rollupClick();
+    this._callback.rollupClick(evt);
   }
 
   setRollupClickHandler(callback) {
@@ -141,7 +141,7 @@ export default class EditPoint extends AbstractView {
   // Save
   _submitClickHandler(evt) {
     evt.preventDefault();
-    this._callback.submitClick();
+    this._callback.submitClick(evt);
   }
 
   setSubmitHandler(callback) {
