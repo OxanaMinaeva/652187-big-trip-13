@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import {generateEvent} from "./mock/event.js";
 
-import {render, RenderPosition} from "./utils.js";
 import SiteMenuView from "./view/site-menu.js";
 import FilterView from "./view/filter.js";
 import EditPointView from "./view/edit-point.js";
@@ -10,6 +9,8 @@ import TripCostView from "./view/trip-cost.js";
 import TripEventView from "./view/trip-event.js";
 import TripInfoView from "./view/trip-info.js";
 import TripSortView from "./view/trip-sort.js";
+
+import {render, RenderPosition, replace} from "./utils/render.js";
 
 
 const TASK_COUNT = 20;
@@ -27,7 +28,7 @@ const siteBodyElement = document.querySelector(`.page-body__page-main`);
 const siteEventElement = siteBodyElement.querySelector(`.trip-events`);
 
 
-render(siteEventElement, new TripSortView().getElement(), RenderPosition.AFTERBEGIN);
+render(siteEventElement, new TripSortView(), RenderPosition.AFTERBEGIN);
 
 // Рендер точки маршрута и редактирования
 const renderEvent = (event) => {
@@ -35,31 +36,31 @@ const renderEvent = (event) => {
   const tripEventEditComponent = new EditPointView(event);
   const tripEventOfferComponent = new FullOfferView(event);
 
-  render(siteEventElement, tripEventComponent.getElement(), RenderPosition.BEFOREEND);
+  render(siteEventElement, tripEventComponent, RenderPosition.BEFOREEND);
 
   const replaceEventToEdit = () => {
-    siteEventElement.replaceChild(tripEventEditComponent.getElement(), tripEventComponent.getElement());
-    render(tripEventEditComponent.getElement().lastElementChild.lastElementChild, tripEventOfferComponent.getElement(), RenderPosition.BEFOREEND);
+    replace(tripEventEditComponent, tripEventComponent);
+    render(tripEventEditComponent.getElement().querySelector(`.event--edit`), tripEventOfferComponent, RenderPosition.BEFOREEND);
   };
 
   const replaceEditToEvent = () => {
-    siteEventElement.replaceChild(tripEventComponent.getElement(), tripEventEditComponent.getElement());
+    replace(tripEventComponent, tripEventEditComponent);
   };
 
-  tripEventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, (evt) => {
-    evt.preventDefault();
+  // Обработчики Start
+  tripEventComponent.setRollupClickHandler(() => {
     replaceEventToEdit();
   });
 
-  tripEventEditComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, (evt) => {
-    evt.preventDefault();
+  tripEventEditComponent.setRollupClickHandler(() => {
     replaceEditToEvent();
   });
 
-  tripEventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, function (evt) {
-    evt.preventDefault();
+  tripEventEditComponent.setSubmitHandler(() => {
     replaceEditToEvent();
   });
+  // Обработчики End
+
 };
 
 const tripMainInfo = (event) => {
@@ -73,8 +74,8 @@ for (let i = 0; i < TASK_COUNT; i++) {
   tripMainInfo(sortEvents[i]);
 }
 
-render(siteMainElement, new TripCostView(cost).getElement(), RenderPosition.AFTERBEGIN);
-render(siteMainElement, new TripInfoView(destinations, dates).getElement(), RenderPosition.AFTERBEGIN);
+render(siteMainElement, new TripCostView(cost), RenderPosition.AFTERBEGIN);
+render(siteMainElement, new TripInfoView(destinations, dates), RenderPosition.AFTERBEGIN);
 
-render(siteHeaderElement, new SiteMenuView().getElement(), RenderPosition.BEFOREEND);
-render(siteHeaderElement, new FilterView().getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new SiteMenuView(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new FilterView(), RenderPosition.BEFOREEND);
